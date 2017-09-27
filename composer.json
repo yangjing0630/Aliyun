@@ -1,5 +1,5 @@
 {
-  "name": "JiSight/message-for-laravel",
+  "name": "ji-sight/message-for-laravel",
   "description": "aliyun message for laravel5.5",
   "license": "MIT",
   "authors": [
@@ -9,8 +9,11 @@
     }
   ],
   "require": {},
+  "require-dev": {
+    "fzaninotto/faker": "~1.4",
+  },
   "autoload": {
-    "psr-4": {
+    "psr-0": {
       "JiSight\\Message": "src/"
     }
   }

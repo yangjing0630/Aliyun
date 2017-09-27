@@ -13,33 +13,18 @@ use Faker\Provider\Uuid;
 class Message
 {
 
-    protected $endPoint;
-
-    protected $accessId;
-
-    protected $accessKey;
-
-    protected $topicName;
-
-    public function __construct($endPoint, $accessId, $accessKey, $topicName)
+    public function send($endPoint, $accessId, $accessKey, $topicName, $signName, $templateCode, $mobile)
     {
-        $this->endPoint = $endPoint;
-        $this->accessId = $accessId;
-        $this->accessKey = $accessKey;
-        $this->topicName = $topicName;
-    }
 
-    public function send($signName, $templateCode, $mobile)
-    {
-        $client = new Client($this->endPoint, $this->accessId, $this->accessKey);
+        $client = new Client($endPoint, $accessId, $accessKey);
 
-        $topic = $client->getTopicRef($this->topicName);
+        $topic = $client->getTopicRef($topicName);
 
         $batchSmsAttributes = new BatchSmsAttributes($signName, $templateCode);
 
         $code = Uuid::randomNumber(6, true);
 
-        $batchSmsAttributes->addReceiver($mobile, array("code" => $code));
+        $batchSmsAttributes->addReceiver($mobile, array("code" => "{$code}"));
 
         $messageAttributes = new MessageAttributes(array($batchSmsAttributes));
 
@@ -48,14 +33,13 @@ class Message
         $request = new PublishMessageRequest($messageBody, $messageAttributes);
         try {
             $result = $topic->publishMessage($request);
-
             return [
                 'status_code' => 200,
                 'status_msg' => 'ok',
                 'data' => ['code' => $code]
             ];
-
-        } catch (MnsException $e) {
+        } catch
+        (MnsException $e) {
             return [
                 'status_code' => $e->getCode(),
                 'status_msg' => $e->getMessage(),
