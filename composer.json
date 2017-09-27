@@ -1,0 +1,17 @@
+{
+  "name": "JiSight/message-for-laravel",
+  "description": "aliyun message for laravel5.5",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "candice",
+      "email": "tech_candice@focuscv.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "JiSight\\Message": "src/"
+    }
+  }
+}
